@@ -1,4 +1,4 @@
-package com.dickys.springapi.config;
+package com.dickys.springapi.config.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

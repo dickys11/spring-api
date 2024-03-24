@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  mysql-apple-silicon:
+    platform: linux/x86_64
+    image: mysql
+    container_name: spring-api-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"

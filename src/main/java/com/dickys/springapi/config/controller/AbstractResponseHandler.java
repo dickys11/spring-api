@@ -1,6 +1,5 @@
-package com.dickys.springapi.config;
+package com.dickys.springapi.config.controller;
 
-import org.apache.el.util.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,21 +7,21 @@ import org.springframework.http.ResponseEntity;
 
 public abstract class AbstractResponseHandler {
 
-    private final boolean isDevelopment = true;
+    private static final boolean IS_DEVELOPMENT = true;
 
     public abstract Object data();
 
     public ResponseEntity<ResultResponse<Object>> done(String msg, HttpStatus httpStatus) {
         Object processResponse = data();
-        if (processResponse instanceof Exception) {
-            return onError(msg, (Exception) processResponse, httpStatus);
+        if (processResponse instanceof Exception processException) {
+            return onError(msg, processException, httpStatus);
         } else {
             return onSuccess(msg, processResponse, httpStatus);
         }
     }
 
     private ResponseEntity<ResultResponse<Object>> onError(String msg, Exception ex, HttpStatus httpStatus) {
-        String debugInfo = isDevelopment ? ex.getStackTrace()[0].toString() :null;
+        String debugInfo = IS_DEVELOPMENT ? ex.getStackTrace()[0].toString() : null;
 
         MetaResponse metaResponse = new MetaResponse(httpStatus.value(), msg, debugInfo);
 
