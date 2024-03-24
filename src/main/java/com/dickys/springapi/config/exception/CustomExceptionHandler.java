@@ -6,6 +6,7 @@ import com.dickys.springapi.config.exception.expected.AppException;
 import com.dickys.springapi.config.exception.expected.DataNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,8 +34,18 @@ public class CustomExceptionHandler {
         if (exception.getBindingResult().getFieldError() == null) {
             return throwException(exception, HttpStatus.BAD_REQUEST, null);
         }
-        String field = exception.getBindingResult().getFieldError().getField();
-        String msg = exception.getBindingResult().getFieldError().getDefaultMessage();
+
+        FieldError fieldError = exception.getBindingResult().getFieldError();
+        if (fieldError == null) {
+            return throwException(exception, HttpStatus.BAD_REQUEST, null);
+        }
+
+        String field = fieldError.getField();
+        String msg = fieldError.getDefaultMessage();
+
+        if (msg == null) {
+            return throwException(exception, HttpStatus.BAD_REQUEST, null);
+        }
 
         return throwException(exception, HttpStatus.BAD_REQUEST, "Field " + field + " " + msg);
     }
