@@ -54,10 +54,6 @@ public class CustomExceptionHandler {
         msg = msg == null ? throwable.getLocalizedMessage() : msg;
 
         return new AbstractResponseHandler() {
-            @Override
-            public Object data() {
-                return throwable;
-            }
-        }.done(msg, httpStatus);
+        }.generateResponse(throwable, msg, httpStatus);
     }
 }

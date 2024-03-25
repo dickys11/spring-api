@@ -1,7 +1,10 @@
 package com.dickys.springapi.service;
 
 import com.dickys.springapi.config.exception.expected.AppException;
+import com.dickys.springapi.dto.request.UserLoginRequest;
 import com.dickys.springapi.dto.request.UserRegistrationRequest;
+import com.dickys.springapi.dto.response.UserLoginResponse;
+import com.dickys.springapi.dto.response.UserRegisterResponse;
 import com.dickys.springapi.entity.User;
 import com.dickys.springapi.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +24,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String registerUser(@NotNull UserRegistrationRequest request) {
+    public UserRegisterResponse registerUser(@NotNull UserRegistrationRequest request) {
         validateUsername(request.getUsername());
 
         User user = new User();
@@ -29,7 +32,20 @@ public class UserService {
         user.setPassword(hashPassword(request.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
-        return user.getId().toString();
+        return new UserRegisterResponse(user.getId(), user.getUsername());
+    }
+
+    public UserLoginResponse loginUser(@NotNull UserLoginRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            throw new AppException("Username not found");
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new AppException("Wrong password");
+        }
+
+        return new UserLoginResponse(user.getUsername());
     }
 
     private void validateUsername(String username) {

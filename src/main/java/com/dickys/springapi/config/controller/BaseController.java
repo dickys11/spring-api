@@ -1,14 +1,12 @@
 package com.dickys.springapi.config.controller;
 
-public abstract class BaseController {
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-    public AbstractResponseHandler generateResponse(Object data) {
-        return new AbstractResponseHandler() {
-            @Override
-            public Object data() {
-                return data;
-            }
-        };
+public abstract class BaseController extends AbstractResponseHandler {
+
+    public <T> ResponseEntity<ResultResponse<T>> generateResponse(T data, String msg, HttpStatus httpStatus) {
+        return super.generateResponse(data, msg, httpStatus);
     }
 }
 
