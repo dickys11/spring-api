@@ -18,7 +18,7 @@ public abstract class AbstractResponseHandler {
     }
 
     private <T> ResponseEntity<ResultResponse<T>> onError(String msg, Exception ex, HttpStatus httpStatus) {
-        String debugInfo = ex.getLocalizedMessage();
+        String debugInfo = IS_DEVELOPMENT ? ex.getLocalizedMessage() : null;
 
         MetaResponse metaResponse = new MetaResponse(httpStatus.value(), msg, debugInfo);
 

@@ -1,6 +1,6 @@
 package com.dickys.springapi.controller;
 
-import com.dickys.springapi.config.controller.BaseController;
+import com.dickys.springapi.config.controller.AbstractResponseHandler;
 import com.dickys.springapi.config.controller.ResultResponse;
 import com.dickys.springapi.dto.request.UserLoginRequest;
 import com.dickys.springapi.dto.request.UserRegistrationRequest;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController extends AbstractResponseHandler {
 
     private final UserService userService;
     private final MessageUtils messageUtils;

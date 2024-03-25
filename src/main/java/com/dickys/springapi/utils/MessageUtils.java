@@ -9,7 +9,7 @@ import java.util.Locale;
 @Component
 public class MessageUtils {
 
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
 
     public MessageUtils(MessageSource messageSource) {
         this.messageSource = messageSource;
@@ -20,7 +20,7 @@ public class MessageUtils {
         return messageSource.getMessage(code, null, locale);
     }
 
-    public String Message(String code, Locale locale) {
+    public String message(String code, Locale locale) {
         return messageSource.getMessage(code, null, locale);
     }
 
@@ -29,7 +29,7 @@ public class MessageUtils {
         return messageSource.getMessage(code, args, locale);
     }
 
-    public String Message(String code, Object[] args, Locale locale) {
+    public String message(String code, Object[] args, Locale locale) {
         return messageSource.getMessage(code, args, locale);
     }
 }
